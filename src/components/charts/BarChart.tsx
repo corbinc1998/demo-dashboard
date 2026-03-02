@@ -1,13 +1,17 @@
 import { Bar, CartesianGrid, Line, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { RechartsDevtools, RECHARTS_DEVTOOLS_PORTAL_ID } from '@recharts/devtools';
-import { agentData } from '../../data/mockData';
+import { type AgentPerformance } from '../../data/mockData';
 
 
-export default function AgentData() {
+interface AgentChartProps {
+    inputData: AgentPerformance[];
+  }
+
+export default function AgentChart({ inputData }: AgentChartProps)  {
     return (
 <BarChart
 style={{ width: '100%', maxWidth: '700px', maxHeight: '70vh', aspectRatio: 1.618 }}
-data={agentData}
+data={inputData}
 margin={{
     top: 5,
     right: 0,

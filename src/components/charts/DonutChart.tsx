@@ -1,11 +1,17 @@
 import { Pie, PieChart, Tooltip } from 'recharts';
-import { resolutionData } from '../../data/mockData';
+import { type ResolutionBreakdown } from '../../data/mockData';
 
-export default function CallResolutionChart() {
+
+interface ResolutionBreakdownProps
+{
+    inputData: ResolutionBreakdown[];
+}
+
+export default function CallResolutionChart({inputData}: ResolutionBreakdownProps) {
   return (
     <PieChart width={500} height={200}>
       <Pie
-        data={resolutionData}
+        data={inputData}
         dataKey="count"
         nameKey="category"
         cx="50%"
