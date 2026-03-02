@@ -1,0 +1,19 @@
+Next up — Charts:
+
+Install Recharts: npm install recharts
+Create a src/components/charts/ folder with three files — one per chart
+For each chart component:
+
+Import the matching data from mockData.ts
+Import the Recharts components you need (check their docs — each chart type has its own set like XAxis, YAxis, Tooltip, ResponsiveContainer, etc.)
+Wrap every chart in <ResponsiveContainer width="100%" height={200}> — this makes them fill whatever card they're in
+
+
+Back in Dashboard.tsx, import your three chart components and swap out those <div className="chart-placeholder"> placeholders
+Bonus: Import the mock data into Dashboard and replace the hardcoded KPI values (42 active calls, "1m 23s", etc.) with calculated values from the data
+
+Nudges for each chart:
+
+LineChart — needs <XAxis dataKey="time"> and <Line dataKey="calls">. Add a <Tooltip> so hovering shows values
+BarChart — same idea but <Bar dataKey="callsResolved">. Give the bars a color with fill
+PieChart — Recharts uses <Pie dataKey="count" nameKey="category">. For a donut look, set innerRadius and outerRadius

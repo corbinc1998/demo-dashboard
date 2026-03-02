@@ -1,6 +1,11 @@
 import { type ReactNode } from "react";
 import "./Dashboard.css";
 
+import CallVolumeChart from "./charts/CallLineChart";
+import AgentData from "./charts/BarChart";
+import CallResolutionChart from "./charts/DonutChart";
+
+// console.log(Object.values(callVolumeData))
 interface MetricCardProps {
   title: string;
   value: string | number;
@@ -55,13 +60,13 @@ export default function Dashboard() {
       {/* Chart area — swap placeholder divs for Recharts later */}
       <section className="dashboard__charts">
         <ChartCard title="Call Volume (24hr)">
-          <div className="chart-placeholder">Line chart goes here</div>
+          <div className="chart-placeholder"><CallVolumeChart/></div>
         </ChartCard>
         <ChartCard title="Agent Performance">
-          <div className="chart-placeholder">Bar chart goes here</div>
+          <div className="chart-placeholder"><AgentData/></div>
         </ChartCard>
         <ChartCard title="Call Resolution Breakdown" size="full">
-          <div className="chart-placeholder">Donut / pie chart goes here</div>
+          <div className="chart-placeholder"><CallResolutionChart/></div>
         </ChartCard>
       </section>
     </div>
