@@ -13,6 +13,8 @@ dist-ssr
 *.local
 .env
 
+/readme_images
+
 commands.txt
 
 # Editor directories and files
