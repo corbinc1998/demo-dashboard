@@ -1,73 +1,105 @@
-# React + TypeScript + Vite
+# Call Center Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A real-time call center analytics dashboard built with React, TypeScript, and AWS. Displays live call volume trends, agent performance metrics, and resolution breakdowns through interactive charts powered by a serverless backend.
 
-Currently, two official plugins are available:
+![Dashboard](readme_images/dashboard.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Architecture
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+React + TypeScript Frontend
+        │
+        ▼
+   API Gateway (REST)
+        │
+        ▼
+   AWS Lambda (Node.js)
+        │
+        ▼
+   JSON Response
+   ├── callVolumeData
+   ├── agentData
+   └── resolutionData
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+![API Response](readme_images/ss2.png)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Tech Stack
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Frontend:** React 19, TypeScript, Vite, Recharts
+
+**Backend:** AWS Lambda (Node.js), API Gateway (REST)
+
+**Key Features:**
+- Responsive dashboard layout with CSS Grid
+- Line chart tracking hourly call volume across a full workday
+- Bar chart comparing agent resolution performance
+- Donut chart visualizing call resolution categories (resolved, escalated, abandoned)
+- Async data fetching with loading and error states
+- CORS-configured serverless API
+- Environment variable configuration for API endpoints
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm
+
+### Installation
+
+```bash
+git clone https://github.com/your-username/call-center-dashboard.git
+cd call-center-dashboard
+npm install
 ```
+
+### Environment Setup
+
+Create a `.env` file in the project root:
+
+```
+VITE_API_URL=https://your-api-gateway-url/prod/dashboard
+```
+
+### Run Locally
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+## Project Structure
+
+```
+call-center-dashboard/
+├── lambda/
+│   └── index.mjs              # AWS Lambda handler
+├── src/
+│   ├── components/
+│   │   ├── charts/
+│   │   │   ├── CallLineChart.tsx    # Call volume line chart
+│   │   │   ├── BarChart.tsx         # Agent performance bar chart
+│   │   │   └── DonutChart.tsx       # Resolution breakdown donut chart
+│   │   ├── Dashboard.tsx            # Main dashboard layout
+│   │   └── Dashboard.css            # Dashboard styles
+│   ├── data/
+│   │   └── mockData.ts             # TypeScript interfaces + fallback data
+│   ├── services/
+│   │   └── api.ts                  # API fetch service
+│   └── App.tsx
+├── .env
+├── .gitignore
+└── package.json
+```
+
+## AWS Setup
+
+### Lambda
+
+The `lambda/index.mjs` function serves call center metrics as a JSON payload containing call volume time-series data, agent performance stats, and resolution breakdowns. Deployed on Node.js runtime with no external dependencies.
+
+### API Gateway
+
+REST API with a single `GET /dashboard` endpoint proxying to the Lambda function. CORS enabled for cross-origin frontend requests.
