@@ -1,9 +1,15 @@
-import { type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import "./Dashboard.css";
+import { fetchDashboardData, type DashboardData } from "../services/api";
+import { useState } from 'react';
+
 
 import CallVolumeChart from "./charts/CallLineChart";
 import AgentData from "./charts/BarChart";
 import CallResolutionChart from "./charts/DonutChart";
+import AgentChart from "./charts/BarChart";
+
+
 
 // console.log(Object.values(callVolumeData))
 interface MetricCardProps {
@@ -40,6 +46,25 @@ export function ChartCard({ title, children, size = "half" }: ChartCardProps) {
 }
 
 export default function Dashboard() {
+  const [data, setData] = useState<DashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchDashboardData()
+      .then((result) => {
+        console.log("API data:", result);
+        setData(result);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  
   return (
     <div className="dashboard">
       <header className="dashboard__header">
@@ -59,15 +84,15 @@ export default function Dashboard() {
 
       {/* Chart area — swap placeholder divs for Recharts later */}
       <section className="dashboard__charts">
-        <ChartCard title="Call Volume (24hr)">
-          <div className="chart-placeholder"><CallVolumeChart/></div>
-        </ChartCard>
-        <ChartCard title="Agent Performance">
-          <div className="chart-placeholder"><AgentData/></div>
-        </ChartCard>
-        <ChartCard title="Call Resolution Breakdown" size="full">
-          <div className="chart-placeholder"><CallResolutionChart/></div>
-        </ChartCard>
+      <ChartCard title="Call Volume (24hr)">
+  <CallVolumeChart inputData={data?.callVolumeData ?? []} />
+</ChartCard>
+<ChartCard title="Agent Performance">
+  <AgentChart inputData={data?.agentData ?? []} />
+</ChartCard>
+<ChartCard title="Call Resolution Breakdown" size="full">
+  <CallResolutionChart inputData={data?.resolutionData ?? []} />
+</ChartCard>
       </section>
     </div>
   );

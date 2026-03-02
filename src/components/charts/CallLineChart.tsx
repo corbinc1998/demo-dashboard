@@ -1,9 +1,13 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { callVolumeData } from '../../data/mockData';
+import { type TimeSeries } from '../../data/mockData';
 
-export default function CallVolumeChart() {
+interface TimeSeriesProps{
+  inputData: TimeSeries[];
+}
+
+export default function CallVolumeChart({inputData}: TimeSeriesProps) {
   return (
-    <LineChart width={500} height={200} data={callVolumeData}>
+    <LineChart width={500} height={200} data={inputData}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="time" />
       <YAxis />
