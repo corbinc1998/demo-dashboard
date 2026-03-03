@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 
 import CallVolumeChart from "./charts/CallLineChart";
-import AgentData from "./charts/BarChart";
 import CallResolutionChart from "./charts/DonutChart";
 import AgentChart from "./charts/BarChart";
 
@@ -62,6 +61,8 @@ export default function Dashboard() {
         setLoading(false);
       });
   }, []);
+
+  if (error) return <div>Error: {error}</div>;
 
   if (loading) return <div>Loading...</div>;
   
