@@ -1,5 +1,4 @@
-import { Bar, CartesianGrid, Line, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
-import { RechartsDevtools, RECHARTS_DEVTOOLS_PORTAL_ID } from '@recharts/devtools';
+import { Bar, CartesianGrid,  BarChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { type AgentPerformance } from '../../data/mockData';
 
 
